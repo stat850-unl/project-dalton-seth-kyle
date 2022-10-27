@@ -1,6 +1,6 @@
 ---
 title: "Stat 850 Project Description"
-author: "Kyle Dougherty"
+author: "Kyle Dougherty, Seth Norquest, Dalton Obermier"
 output: github_document
 ---
 
