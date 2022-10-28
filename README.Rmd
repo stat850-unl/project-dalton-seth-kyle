@@ -18,11 +18,23 @@ Note that you must compile your readme (this document) for it to properly displa
 Once you have received feedback on your project proposal (via Canvas) you may alter this README so that it describes your final project instead of the project proposal. 
 
 ## Data Set
-Provide a link to your dataset here, and a description of the variables in the data set.
-
+https://github.com/stat850-unl/project-dalton-seth-kyle/blob/master/ST_project.xlsx
+SowID = animal 
+Treatment = Feeding time pre-farrow (1 = 7-10AM; 2 = 2-5AM)
+Farrow Date = date of farrow, on a 1000 day calender
+Onset = time of starting of farrowing
+Piglet = number of piglets born when onset was recorded
+End = completion of farrowing
+Farrow Time = Duration of farrowing 
+Induce = (1 = induced; 0 = not induced)
+Due Date = 114 gestation date, on a 1000 day calender
+Gestation length = gestation length
+TNB = total number born 
+SB = stillborn count 
+SB_perc = stillborn percentage
 ## Potential Topics to Explore Using the Data Set
 Describe avenues you might explore using the data
 
 ## Group Members
-List all of the project contributors here.
+
 
