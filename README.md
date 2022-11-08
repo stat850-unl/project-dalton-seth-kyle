@@ -22,7 +22,7 @@ instead of the project proposal.
 
 <https://github.com/stat850-unl/project-dalton-seth-kyle/blob/master/ST_project.xlsx>
 
-### Description of Dataset
+### Description of Dataset 
 
 SowID = animal Treatment = Feeding time pre-farrow (1 = 7-10AM; 2 =
 2-5AM) Farrow Date = date of farrow, on a 1000 day calender Onset = time
