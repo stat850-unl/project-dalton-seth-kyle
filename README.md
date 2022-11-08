@@ -5,7 +5,7 @@ Kyle Dougherty, Seth Norquest, Dalton Obermier
 ## Instructions
 
 Each member of your team should modify this document in some way and
-push their modifications to the repository in a separate commit. This
+push their modifications to the repository in a separate commit. This 
 will ensure that you have set your repository up in a way that ensures
 all group members are working with the same repository.
 
@@ -15,6 +15,7 @@ properly display as part of your github repository.
 Once you have received feedback on your project proposal (via Canvas)
 you may alter this README so that it describes your final project
 instead of the project proposal.
+xxxtestxxx
 
 ## Data Set
 
