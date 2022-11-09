@@ -42,7 +42,9 @@ the day to alter their time of parturition. This is vital because
 farrowings that occur during farm staff hours (during the day) are often
 better off due to the extra assistance available (less dead pigs!)
 
+There will be multiple ways to visualize the data, especially because we have several traits that offer variation. We can visualize induced animals in relation to onset of farrowing time, and number of stillborns. Most importantly, we will look at the distribution of onset time in relation to treatment; simple histograms or scatterplots will be suffice for this. 
+
 ## Group Members
 
 Dalton: Provided dataset and descriptions of dataset and trial. Kyle:
-Added description from Dalton and some formatting.
+Added description from Dalton and some formatting. Seth: Conversed with group on ideas for data visualization and formatted within GIT. 
