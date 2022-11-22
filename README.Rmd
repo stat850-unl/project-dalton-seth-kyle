@@ -44,3 +44,10 @@ The data we will be using comes from a trail Dalton conducted at a hog farm in N
 
 Dalton: Provided dataset and descriptions of dataset and trial. 
 Kyle: Added description from Dalton and some formatting.
+
+## To Do List: 
++ Filter out induced (1) animals and NAs in TNB SB. 
++ Onset time, farrow time, gestation length, and TNB/SB as function of treatment 
++ Shiny app: visualize relationship between gestation length and SB percentage, relationship between gestation length and treatment 
++ Basic summary statistics (min, max, mean and integrate a std. err function)
+
