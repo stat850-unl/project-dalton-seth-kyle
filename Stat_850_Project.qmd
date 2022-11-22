@@ -1,0 +1,20 @@
+---
+title: "Dalton, Seth, Kyle Report"
+format: html
+---
+
+# Introduction: 
+
+# Methods: 
+
+# Results: 
+
+# Discussion: 
+
+# Link to Shiny App:
+
+# Data Cleaning: 
+
+# Summary Statistics: 
+
+# Figures
