@@ -5,7 +5,7 @@ Kyle Dougherty, Seth Norquest, Dalton Obermier
 ## Instructions
 
 Each member of your team should modify this document in some way and
-push their modifications to the repository in a separate commit. This
+push their modifications to the repository in a separate commit. This 
 will ensure that you have set your repository up in a way that ensures
 all group members are working with the same repository.
 
@@ -15,6 +15,7 @@ properly display as part of your github repository.
 Once you have received feedback on your project proposal (via Canvas)
 you may alter this README so that it describes your final project
 instead of the project proposal.
+xxxtestxxx
 
 ## Data Set
 
@@ -22,7 +23,7 @@ instead of the project proposal.
 
 <https://github.com/stat850-unl/project-dalton-seth-kyle/blob/master/ST_project.xlsx>
 
-### Description of Dataset
+### Description of Dataset 
 
 SowID = animal Treatment = Feeding time pre-farrow (1 = 7-10AM; 2 =
 2-5AM) Farrow Date = date of farrow, on a 1000 day calender Onset = time
@@ -41,7 +42,9 @@ the day to alter their time of parturition. This is vital because
 farrowings that occur during farm staff hours (during the day) are often
 better off due to the extra assistance available (less dead pigs!)
 
+There will be multiple ways to visualize the data, especially because we have several traits that offer variation. We can visualize induced animals in relation to onset of farrowing time, and number of stillborns. Most importantly, we will look at the distribution of onset time in relation to treatment; simple histograms or scatterplots will be suffice for this. 
+
 ## Group Members
 
 Dalton: Provided dataset and descriptions of dataset and trial. Kyle:
-Added description from Dalton and some formatting.
+Added description from Dalton and some formatting. Seth: Conversed with group on ideas for data visualization and formatted within GIT. 
