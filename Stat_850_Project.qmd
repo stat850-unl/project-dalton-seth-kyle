@@ -29,5 +29,37 @@ Data <- Data[,-14]%>%
 ```
 
 # Summary Statistics: 
+``` {r}
+library(dplyr) # wrangling
+library(tidyr) # wrangling
+library(purrr) # for iteration
+library(ggplot2) # plotting
+library(readr) # to read dand write data
+library(lme4) # for mixed models
+library(car) # Anova
+library(broom.mixed) # model diagnostics
+library(emmeans) # Anova means
+library(multcomp) # pairwise comparisons
+library(multcompView) # pairwise comparisons
+library(ggthemes) # ggplot customization
+library(ggpubr)
+library(ggthemes)
+library(tidyverse)
+library(readxl)
+library(cli)
+library(ggplot2)
+library(ggprism)
+library(patchwork)
 
+
+plot1 <-ggplot(data=Data, aes(x =Onset, y = SB_perc )) +geom_point(aes(color = GestationLength)) + facet_wrap('Treatment')
+plot1
+# Need to extract the onset time to only give military time. Use rbind to create new column
+Data1 <- rbind()
+#Mean and SD of Total Newborns, stillborn percentage, and Gestation length by Treatment
+Data %>%
+  group_by(Treatment) %>%
+  summarise(mean(TNB), sd(TNB),mean(SB_perc), sd(SB_perc),mean(GestationLength), sd(GestationLength))
+
+```
 # Figures
