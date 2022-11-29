@@ -18,10 +18,13 @@ format: html
 ```{r}
 library(tidyverse)
 library(lubridate)
+library(xlsx)
 #Reading in the data set 
 #Filtering out NA values in all columns
 #Dropping unwanted columns (Trt1 & tr2)
 #Removing any sows that were induced
+ST_project <- read.xlsx("ST_project.xlsx", 
+                        sheetIndex = 1)
 Data <- ST_project[,-14]
 Data <- Data[,-14]%>%
   drop_na(TNB,SB,SB_perc)%>%
