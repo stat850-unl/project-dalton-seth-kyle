@@ -1,0 +1,13 @@
+name: Stat_850_App
+title: Stat_850_App
+username:
+account: kdougherty
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7810271
+bundleId: 6590207
+url: https://kdougherty.shinyapps.io/Stat_850_App/
+when: 1670189538.20467
+lastSyncTime: 1670189538.20468
+asMultiple: FALSE
+asStatic: FALSE
