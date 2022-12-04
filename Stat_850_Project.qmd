@@ -25,9 +25,65 @@ library(lubridate)
 Data <- ST_project[,-14]
 Data <- Data[,-14]%>%
   drop_na(TNB,SB,SB_perc)%>%
-  filter(., Induce == "0")
+  filter(., Induce == "0")%>%
+  filter(., GestationLength >= 100)%>%
+  filter(., GestationLength < 130)%>%
+#The next 3 lines are transitioning the onset time (YMD) to start_minutes (continuous trait)
+  mutate(Start = format(Onset, format="%H:%M"))%>%
+  separate(Start, into=c("Start_H","Start_M"),sep = ":") %>%
+  mutate(Start_Minutes = as.numeric(Start_H)*60+as.numeric(Start_M)) %>%
+#The next 3 lines are transitioning the finish time (YMD) to finish_minutes (continuous trait)
+  mutate(Finish = format(End, format="%H:%M"))%>%
+  separate(Finish, into=c("Finish_H","Finish_M"),sep = ":") %>%
+  mutate(Finish_Minutes = as.numeric(Finish_H)*60+as.numeric(Finish_M))%>%
+  mutate(Duration = (Finish_Minutes-Start_Minutes))%>%
+  mutate(Duration = ifelse(Duration < 0, Duration + 1440, Duration))%>%
+  mutate(Factor = ifelse(Treatment == 1 | Treatment == 2, "1","2"))
+
 ```
 
 # Summary Statistics: 
 
 # Figures
+
+```{r}
+#Gestation length ~ Stillborns
+# Black dots are 7am, Blue are 2am 
+library(ggplot2)
+ggplot(data = Data, aes(x = GestationLength, y = SB_perc, color = Treatment)) + geom_point() 
+```
+
+```{r}
+#Gestation length ~ Total Number Born 
+#Treatment would not impact TNB
+library(ggplot2)
+ggplot(data = Data, aes(x = GestationLength, y = TNB)) + geom_point(color = 5) 
+```
+
+```{r}
+#Start_Minutes ~ Piglet observed 
+library(ggplot2)
+ggplot(data = Data, aes(x = Start_Minutes, y = Piglet, color = Treatment)) + geom_point() 
+```
+
+```{r}
+#Start_Minutes ~ Piglet observed 
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) 
+```
+
+
+```{r}
+#All Sows - histogram of start minutes 
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "blue", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows"))
+```
+
+```{r}
+library(ggplot2)
+Data1 <- Data%>%
+  filter(., Treatment == "1")
+ggplot(Data, aes(x = SowID, y = Start_Minutes)) + geom_point(color = 4)
+```
