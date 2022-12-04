@@ -28,7 +28,21 @@ ST_project <- read.xlsx("ST_project.xlsx",
 Data <- ST_project[,-14]
 Data <- Data[,-14]%>%
   drop_na(TNB,SB,SB_perc)%>%
-  filter(., Induce == "0")
+  filter(., Induce == "0")%>%
+  filter(., GestationLength >= 100)%>%
+  filter(., GestationLength < 130)%>%
+#The next 3 lines are transitioning the onset time (YMD) to start_minutes (continuous trait)
+  mutate(Start = format(Onset, format="%H:%M"))%>%
+  separate(Start, into=c("Start_H","Start_M"),sep = ":") %>%
+  mutate(Start_Minutes = as.numeric(Start_H)*60+as.numeric(Start_M)) %>%
+#The next 3 lines are transitioning the finish time (YMD) to finish_minutes (continuous trait)
+  mutate(Finish = format(End, format="%H:%M"))%>%
+  separate(Finish, into=c("Finish_H","Finish_M"),sep = ":") %>%
+  mutate(Finish_Minutes = as.numeric(Finish_H)*60+as.numeric(Finish_M))%>%
+  mutate(Duration = (Finish_Minutes-Start_Minutes))%>%
+  mutate(Duration = ifelse(Duration < 0, Duration + 1440, Duration))%>%
+  mutate(Factor = ifelse(Treatment == 1 | Treatment == 2, "1","2"))
+
 ```
 
 # Summary Statistics: 
@@ -53,16 +67,60 @@ library(cli)
 library(ggplot2)
 library(ggprism)
 library(patchwork)
+library(plotrix)
 
-
-plot1 <-ggplot(data=Data, aes(x =Onset, y = SB_perc )) +geom_point(aes(color = GestationLength)) + facet_wrap('Treatment')
+plot1 <- ggplot(data=Data, aes(x =GestationLength, y = SB_perc )) + xlim(110,120) + ylim(0,.75) + geom_point() + facet_wrap('Treatment')
 plot1
-# Need to extract the onset time to only give military time. Use rbind to create new column
-Data1 <- rbind()
+
+
 #Mean and SD of Total Newborns, stillborn percentage, and Gestation length by Treatment
 Data %>%
   group_by(Treatment) %>%
-  summarise(mean(TNB), sd(TNB),mean(SB_perc), sd(SB_perc),mean(GestationLength), sd(GestationLength))
+  summarise( min(TNB), max(TNB), mean(TNB), sd(TNB), std.error(TNB), 
+             min(SB_perc), max(SB_perc), mean(SB_perc), sd(SB_perc), std.error(SB_perc),
+             min(GestationLength), max(GestationLength), mean(GestationLength), sd(GestationLength), std.error(GestationLength))
 
 ```
 # Figures
+
+```{r}
+#Gestation length ~ Stillborns
+# Black dots are 7am, Blue are 2am 
+library(ggplot2)
+ggplot(data = Data, aes(x = GestationLength, y = SB_perc, color = Treatment)) + geom_point() 
+```
+
+```{r}
+#Gestation length ~ Total Number Born 
+#Treatment would not impact TNB
+library(ggplot2)
+ggplot(data = Data, aes(x = GestationLength, y = TNB)) + geom_point(color = 5) 
+```
+
+```{r}
+#Start_Minutes ~ Piglet observed 
+library(ggplot2)
+ggplot(data = Data, aes(x = Start_Minutes, y = Piglet, color = Treatment)) + geom_point() 
+```
+
+```{r}
+#Start_Minutes ~ Piglet observed 
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) 
+```
+
+
+```{r}
+#All Sows - histogram of start minutes 
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "blue", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows"))
+```
+
+```{r}
+library(ggplot2)
+Data1 <- Data%>%
+  filter(., Treatment == "1")
+ggplot(Data, aes(x = SowID, y = Start_Minutes)) + geom_point(color = 4)
+```
