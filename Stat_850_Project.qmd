@@ -18,10 +18,13 @@ format: html
 ```{r}
 library(tidyverse)
 library(lubridate)
+library(xlsx)
 #Reading in the data set 
 #Filtering out NA values in all columns
 #Dropping unwanted columns (Trt1 & tr2)
 #Removing any sows that were induced
+ST_project <- read.xlsx("ST_project.xlsx", 
+                        sheetIndex = 1)
 Data <- ST_project[,-14]
 Data <- Data[,-14]%>%
   drop_na(TNB,SB,SB_perc)%>%
@@ -43,7 +46,41 @@ Data <- Data[,-14]%>%
 ```
 
 # Summary Statistics: 
+``` {r}
+library(dplyr) # wrangling
+library(tidyr) # wrangling
+library(purrr) # for iteration
+library(ggplot2) # plotting
+library(readr) # to read dand write data
+library(lme4) # for mixed models
+library(car) # Anova
+library(broom.mixed) # model diagnostics
+library(emmeans) # Anova means
+library(multcomp) # pairwise comparisons
+library(multcompView) # pairwise comparisons
+library(ggthemes) # ggplot customization
+library(ggpubr)
+library(ggthemes)
+library(tidyverse)
+library(readxl)
+library(cli)
+library(ggplot2)
+library(ggprism)
+library(patchwork)
+library(plotrix)
 
+plot1 <- ggplot(data=Data, aes(x =GestationLength, y = SB_perc )) + xlim(110,120) + ylim(0,.75) + geom_point() + facet_wrap('Treatment')
+plot1
+
+
+#Mean and SD of Total Newborns, stillborn percentage, and Gestation length by Treatment
+Data %>%
+  group_by(Treatment) %>%
+  summarise( min(TNB), max(TNB), mean(TNB), sd(TNB), std.error(TNB), 
+             min(SB_perc), max(SB_perc), mean(SB_perc), sd(SB_perc), std.error(SB_perc),
+             min(GestationLength), max(GestationLength), mean(GestationLength), sd(GestationLength), std.error(GestationLength))
+
+```
 # Figures
 
 ```{r}
