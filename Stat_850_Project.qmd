@@ -4,8 +4,14 @@ format: html
 ---
 
 # Introduction: 
+This data set was extracted from a research trial conducted by Dalton in the summer of 2020. Prior to jumping into any of the details pertaining to this project, it is important to credit the two companies that provided the opportunity for this to exist in the first place. JYGA Technologies (Gestal) was Dalton's employer at the time, who develops the electronic feeders utilized in the methodology of the trial, and Standard Nutrition Company was the owner and operator of the farm in which the trial took place. 
+
+This project investigated the impact of pre-farrow meal time on the onset of parturition. Upon entry to the farrowing rooms (day 112 of gestation), sows were assigned to one of two treatments; 1) Traditional (Fed from 7:00-10:00AM) and 2) Alternative (Fed from 2:00-5:00AM). Three research technicians (Dalton included) monitored the farrowing rooms every day for 10 weeks for 24 hours a day. Data collected that is used for this class's project included farrow date, onset time of farrowing and number of piglets observed when the time was recorded, subsequent piglet counts throughout the farrowing event until the last piglet was observed (Finish time), gestation length, total number born, number born alive, and number of stillborns per litter. Additionally, duration of farrowing and stillborn percentage was calculated after the collection period was over via simple formulation in excel. 
 
 # Methods: 
+All analysis and data visualization was conducted through the use of RStudio with data merging taking place via GitHub. The data set was read into RStudio via the readxl package. The first step to any data analysis project is cleaning up the data itself. This data was collected by hand and entered into an excel sheet, so unfortunately we can expect there to be some data entry errors associated with this data set. In particular, there were a few observations that had gestation lengths under 100 days or over 130 days, which is technically impossible to observe in this trial due to biological and managerial effects. Those observations were therefore removed with the filter function. Additionally, a dummy variable was utilized on whether or not sows were induced prior to parturition, with those induced sows being removed due to confounding effects via the filter function as well. The final step for data cleaning in this project was formatting the time columns (Onset and Completion time of farrowing). Since we are not necessarily concerned with what day these animals farrowed and more so what time of the day they did, it makes sense to look at these time variables on a continuous level; such as minute of the day. In order to complete this task, the lubridate package was used to format the actual time of the day into the minute of the day, with the YMD portion being removed all together. 
+
+Summary statistics were carried out for the traits of interest in this data set. A variety of packages were utilized for this step, such as dplyr, tidyr, readr, tidyverse, emmeans, ggplot2, etc. Summary statistics per treatment group, as well as the total population of sows were carried out using the summarise function. 
 
 # Results: 
 
@@ -14,17 +20,15 @@ format: html
 # Link to Shiny App: https://kdougherty.shinyapps.io/Stat_850_App/
 
 # Data Cleaning: 
-
 ```{r}
 library(tidyverse)
 library(lubridate)
-library(xlsx)
+library(readxl)
 #Reading in the data set 
 #Filtering out NA values in all columns
 #Dropping unwanted columns (Trt1 & tr2)
 #Removing any sows that were induced
-ST_project <- read.xlsx("ST_project.xlsx", 
-                        sheetIndex = 1)
+ST_project <- read_excel("ST_project.xlsx")
 Data <- ST_project[,-14]
 Data <- Data[,-14]%>%
   drop_na(TNB,SB,SB_perc)%>%
@@ -55,20 +59,20 @@ library(ggplot2) # plotting
 library(readr) # to read dand write data
 library(lme4) # for mixed models
 library(car) # Anova
-library(broom.mixed) # model diagnostics
+#library(broom.mixed) # model diagnostics
 library(emmeans) # Anova means
 library(multcomp) # pairwise comparisons
-library(multcompView) # pairwise comparisons
-library(ggthemes) # ggplot customization
-library(ggpubr)
-library(ggthemes)
+#library(multcompView) # pairwise comparisons
+#library(ggthemes) # ggplot customization
+#library(ggpubr)
+#library(ggthemes)
 library(tidyverse)
 library(readxl)
 library(cli)
 library(ggplot2)
-library(ggprism)
+#library(ggprism)
 library(patchwork)
-library(plotrix)
+#library(plotrix)
 
 plot1 <- ggplot(data=Data, aes(x =GestationLength, y = SB_perc )) + xlim(110,120) + ylim(0,.75) + geom_point() + facet_wrap('Treatment')
 plot1
@@ -77,13 +81,13 @@ plot1
 #Mean and SD of Total Newborns, stillborn percentage, and Gestation length by Treatment
 Data %>%
   group_by(Treatment) %>%
-  summarise( min(TNB), max(TNB), mean(TNB), sd(TNB), std.error(TNB), 
+  summarise(min(TNB), max(TNB), mean(TNB), sd(TNB), std.error(TNB), 
              min(SB_perc), max(SB_perc), mean(SB_perc), sd(SB_perc), std.error(SB_perc),
              min(GestationLength), max(GestationLength), mean(GestationLength), sd(GestationLength), std.error(GestationLength))
 
 ```
-# Figures
 
+# Figures
 ```{r}
 #Gestation length ~ Stillborns
 # Black dots are 7am, Blue are 2am 
@@ -105,9 +109,10 @@ ggplot(data = Data, aes(x = Start_Minutes, y = Piglet, color = Treatment)) + geo
 ```
 
 ```{r}
-#Start_Minutes ~ Piglet observed 
+#SowID (AGE!) in relation to TNB 
+# Gilts had lower TNB
 library(ggplot2)
-ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) 
+ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age") 
 ```
 
 
@@ -116,12 +121,22 @@ ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2)
 library(ggplot2)
 ggplot(data = Data, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
   geom_histogram(position = "dodge", fill = "blue", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
-         colour = guide_legend(title = "All Sows"))
+         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of All Sows")
 ```
 
 ```{r}
 library(ggplot2)
 Data1 <- Data%>%
   filter(., Treatment == "1")
-ggplot(Data, aes(x = SowID, y = Start_Minutes)) + geom_point(color = 4)
+ggplot(data = Data1, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "red", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of 7-10AM fed Sows")
+```
+```{r}
+library(ggplot2)
+Data2 <- Data%>%
+  filter(., Treatment == "2")
+ggplot(data = Data2, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "purple", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of 2-5AM fed Sows")
 ```
