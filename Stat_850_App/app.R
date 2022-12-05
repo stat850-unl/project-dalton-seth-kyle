@@ -27,6 +27,7 @@ std.error <- function(x){
 Summary_Statistics = Pig_Data %>%
   group_by(Treatment) %>%
   summarise(across(c(`Total Number Born`,
+                     `Start Time`,
                      `Percent Stillborn`,
                      `Gestation Length`),
                    .fns = c(Min = min,
@@ -63,7 +64,8 @@ ui <- fluidPage(
                                                 "Variable to Summarize",
                                                 choices = c("Gestation Length",
                                                             "Total Number Born",
-                                                            "Percent Stillborn")),
+                                                            "Percent Stillborn",
+                                                            "Start Time")),
                                     tableOutput("summary_stats"),
                                     actionButton('totab3', 'Next Tab: Data Visualization'))),
                  tabPanel("3. Data Visualization",
