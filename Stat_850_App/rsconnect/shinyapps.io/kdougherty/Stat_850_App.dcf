@@ -5,9 +5,9 @@ account: kdougherty
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7810271
-bundleId: 6590207
+bundleId: 6591360
 url: https://kdougherty.shinyapps.io/Stat_850_App/
-when: 1670189538.20467
-lastSyncTime: 1670189538.20468
+when: 1670210600.94498
+lastSyncTime: 1670210600.94499
 asMultiple: FALSE
 asStatic: FALSE

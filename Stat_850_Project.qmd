@@ -11,7 +11,7 @@ format: html
 
 # Discussion: 
 
-# Link to Shiny App:
+# Link to Shiny App: https://kdougherty.shinyapps.io/Stat_850_App/
 
 # Data Cleaning: 
 
