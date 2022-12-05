@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Introduction
-This was a trail completed by Dalton back in the summer of 2020; associated with JYGA Technologies (Gestal) and Standard Nutrition Services. The data set included 1,166 sows with numerous variables of interest. The goal of trial was to investigate the impact of pre-farrow feeding time on the onset of parturition; with two treatments: 1) Sows were fed from 7:00 - 10:00AM, 2) Sows were fed from 2:00 - 5:00AM. We hypothesized that by feeding sows overnight, they would farrow earlier in the day, thus better aligning with farm staff hours and ultamitely reducing the occurence of stillborn piglets.  
+This was a trail completed by Dalton back in the summer of 2020; associated with JYGA Technologies (Gestal) and Standard Nutrition Services. The data set included 1,166 sows with numerous variables of interest. The goal of trial was to investigate the impact of pre-farrow feeding time on the onset of parturition; with two treatments: 1) Sows were fed from 7:00 - 10:00AM, 2) Sows were fed from 2:00 - 5:00AM. We hypothesized that by feeding sows overnight, they would farrow earlier in the day, thus better aligning with farm staff hours and ultimately reducing the occurrence of stillborn piglets.  
 
 
 ## Looking at the data 
@@ -21,20 +21,91 @@ This was a trail completed by Dalton back in the summer of 2020; associated with
 - Gestation Length: Length of gestation (114d "average" in swine)
 - TNB: Total Number Born 
 - SB: Stillborns
-- SB_Perc: Stillborn percentagee 
+- SB_Perc: Stillborn percentage 
 - Start_Minutes: Onset time (minute of the day)
-- Finish_Minutes: Last piglet obsereved (minute of the day)
+- Finish_Minutes: Last piglet observed (minute of the day)
 - Duration: Length of farrowing 
 
-## Slide with R Output
+## Data Cleaning 
 
+- There was some data cleaning that occurred prior to analysis being completed 
+- Removed any sows that were induced
+- Dropped NA's for columns including: TNB, SB, SB_perc
+- Changed onset and end of farrowing times from YMD format to minutes of the day
+- Filted out any data reporting errors (e.i. Removed one sow since gestation length was >130 days)
+
+
+## Slide with Code 
 ```{r cars, echo = TRUE}
 summary(cars)
 ```
 
-## Slide with Plot
 
-```{r pressure}
-plot(pressure)
+
+
+
+
+
+
+## Distribution of Onset time of All Sows
+```{r}
+#All Sows - histogram of start minutes 
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "blue", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of All Sows")
 ```
 
+## Distribution of Onset time of Sows fed from 7-10AM
+
+```{r}
+library(ggplot2)
+Data1 <- Data%>%
+  filter(., Treatment == "1")
+ggplot(data = Data1, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "red", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of 7-10AM Sows")
+```
+## Distribution of Onset time of Sows fed from 2-5AM
+
+```{r}
+library(ggplot2)
+Data2 <- Data%>%
+  filter(., Treatment == "2")
+ggplot(data = Data2, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
+  geom_histogram(position = "dodge", fill = "purple", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
+         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of 2-5AM fed Sows")
+```
+
+## SB% ~ Gestation Length
+```{r pressure}
+#Gestation length ~ Stillborns
+# Black dots are 7am, Blue are 2am 
+library(ggplot2)
+ggplot(data = Data, aes(x = GestationLength, y = SB_perc, color = Treatment)) + geom_point() + labs(title = "SB% in relation to Gestation Length accross Treatments") 
+```
+## TNB ~ Gestation Length
+```{r}
+#Gestation length ~ Total Number Born 
+#Treatment would not impact TNB
+library(ggplot2)
+ggplot(data = Data, aes(x = GestationLength, y = TNB)) + geom_point(color = 5) + labs(title = "TNB in relation to Gestation Length")
+```
+## Piglets observed ~ Onset 
+```{r}
+#Start_Minutes ~ Piglet observed
+# Included this graph to see if there were any trends throughout the day on missing farrowing starts
+library(ggplot2)
+ggplot(data = Data, aes(x = Start_Minutes, y = Piglet, color = Treatment)) + geom_point() + labs(title = "Number of piglets at Onset time in relation to Time and Treatment") 
+```
+
+## TNB ~ Sow Age 
+```{r}
+#SowID (AGE!) in relation to TNB 
+# Gilts had lower TNB
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age") 
+```
+
+## Conclusion 
+In conclusion, results from this data set are not necessary clear without the use of statistical modeling. We are able to identify some trends via data visualization, however statistical inference on if our hypothesis is correct is unable to be completed. As always, it was interesting to see the impact certain traits had on others and the potential biological effects that may be at play in those circumstances. 
