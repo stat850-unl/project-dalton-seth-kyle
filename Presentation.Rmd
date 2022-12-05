@@ -77,6 +77,7 @@ Data %>%
   group_by(Treatment) %>%
   summarise(across(c(`Total Number Born`,
                      `Percent Stillborn`,
+                     `Start Minutes`,
                      `Gestation Length`),
                    .fns = c(Min = min,
                             Max = max,
@@ -156,8 +157,6 @@ library(ggplot2)
 ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age") 
 ```
 
-## Conclusion 
-In conclusion, results from this data set are not necessary clear without the use of statistical modeling. We are able to identify some trends via data visualization, however statistical inference on if our hypothesis is correct is unable to be completed. As always, it was interesting to see the impact certain traits had on others and the potential biological effects that may be at play in those circumstances. 
 
 ## Application: Project Overview
 
@@ -171,3 +170,6 @@ In conclusion, results from this data set are not necessary clear without the us
 ## Application: Data Visualization
 
 ![](PNGs/App_Tab_3.PNG){.absolute width="400" height="450"}
+
+## Conclusion 
+In conclusion, results from this data set are not necessary clear without the use of statistical modeling. We are able to identify some trends via data visualization, however statistical inference on if our hypothesis is correct is unable to be completed. As always, it was interesting to see the impact certain traits had on others and the potential biological effects that may be at play in those circumstances. 
