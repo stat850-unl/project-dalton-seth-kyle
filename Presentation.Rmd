@@ -38,3 +38,16 @@ summary(cars)
 plot(pressure)
 ```
 
+
+## Application: Project Overview
+
+![](PNGs/App_Tab_1.PNG){.absolute width="450" height="400"}
+
+
+## Application: Summary Statistics
+
+![](PNGs/App_Tab_2.PNG){.absolute width="450" height="400"}
+
+## Application: Data Visualization
+
+![](PNGs/App_Tab_3.PNG){.absolute width="400" height="450"}
