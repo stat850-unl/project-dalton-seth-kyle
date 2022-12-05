@@ -1,0 +1,40 @@
+---
+title: "Swine Data Analysis"
+author: "Kyle Dougherty, Seth Norquest, Dalton Obermier"
+date: "2022-12-05"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+This was a trail completed by Dalton back in the summer of 2020; associated with JYGA Technologies (Gestal) and Standard Nutrition Services. The data set included 1,166 sows with numerous variables of interest. The goal of trial was to investigate the impact of pre-farrow feeding time on the onset of parturition; with two treatments: 1) Sows were fed from 7:00 - 10:00AM, 2) Sows were fed from 2:00 - 5:00AM. We hypothesized that by feeding sows overnight, they would farrow earlier in the day, thus better aligning with farm staff hours and ultamitely reducing the occurence of stillborn piglets.  
+
+
+## Looking at the data 
+
+- SowID: Individual sow's number, the greater the number, the younger the sow
+- Treatment: 1) 7-10AM 2) 2-5AM
+- Piglet: Number of piglets observed when Onset time was recorded
+- Gestation Length: Length of gestation (114d "average" in swine)
+- TNB: Total Number Born 
+- SB: Stillborns
+- SB_Perc: Stillborn percentagee 
+- Start_Minutes: Onset time (minute of the day)
+- Finish_Minutes: Last piglet obsereved (minute of the day)
+- Duration: Length of farrowing 
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
