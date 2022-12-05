@@ -43,6 +43,7 @@ Data <- Data[,-14]%>%
   mutate(Duration = ifelse(Duration < 0, Duration + 1440, Duration))%>%
   mutate(Factor = ifelse(Treatment == 1 | Treatment == 2, "1","2"))
 
+write_csv(Data, "ST_project_cleaned.csv")
 ```
 
 # Summary Statistics: 
