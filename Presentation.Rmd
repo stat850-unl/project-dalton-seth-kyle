@@ -129,10 +129,8 @@ ggplot(data = Data2, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes
 
 ## SB% ~ Gestation Length
 ```{r pressure}
-#Gestation length ~ Stillborns
-# Black dots are 7am, Blue are 2am 
-library(ggplot2)
-ggplot(data = Data, aes(x = GestationLength, y = SB_perc, color = Treatment)) + geom_point() + labs(title = "SB% in relation to Gestation Length accross Treatments") 
+plot1 <- ggplot(data=Data, aes(x =GestationLength, y = SB_perc )) + xlim(110,120) + ylim(0,.75) + geom_point() + facet_wrap('Treatment') + labs(title = "SB% in relation to Gestation Length accross Treatments")
+plot1
 ```
 ## TNB ~ Gestation Length
 ```{r}
