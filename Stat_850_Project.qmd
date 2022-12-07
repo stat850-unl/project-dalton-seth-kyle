@@ -4,22 +4,21 @@ format: html
 ---
 
 # Introduction: 
-This data set was extracted from a research trial conducted by Dalton in the summer of 2020. Prior to jumping into any of the details pertaining to this project, it is important to credit the two companies that provided the opportunity for this to exist in the first place. JYGA Technologies (Gestal) was Dalton's employer at the time, who develops the electronic feeders utilized in the methodology of the trial, and Standard Nutrition Company was the owner and operator of the farm in which the trial took place. 
+This data set was extracted from a research trial conducted by Dalton in the summer of 2020. Prior to jumping into any of the details pertaining to this project, it is important to give acknowledgement to the two companies that provided the opportunity for this data set to exist in the first place. JYGA Technologies (Gestal) was Dalton's employer at the time, who develops the electronic feeders utilized in the methodology of the trial and was the key part of getting the research technicians in the barn, and Standard Nutrition Company was the owner and operator of the farm in which the trial took place. 
 
-This project investigated the impact of pre-farrow meal time on the onset of parturition. Upon entry to the farrowing rooms (day 112 of gestation), sows were assigned to one of two treatments; 1) Traditional (Fed from 7:00-10:00AM) and 2) Alternative (Fed from 2:00-5:00AM). Three research technicians (Dalton included) monitored the farrowing rooms every day for 10 weeks for 24 hours a day. Data collected that is used for this class's project included farrow date, onset time of farrowing and number of piglets observed when the time was recorded, subsequent piglet counts throughout the farrowing event until the last piglet was observed (Finish time), gestation length, total number born, number born alive, and number of stillborns per litter. Additionally, duration of farrowing and stillborn percentage was calculated after the collection period was over via simple formulation in excel. 
+This project investigated the impact of pre-farrow meal time on the onset of parturition. Upon entry to the farrowing rooms (day 112 of gestation), sows were assigned to one of two treatments; 1) Traditional (Fed from 7:00-10:00AM) and 2) Alternative (Fed from 2:00-5:00AM). Three research technicians (Dalton included) monitored the farrowing rooms every day for 10 weeks for 24 hours a day (8 hours per shift per person). Data collected that is used for this class's project included farrow date, onset time of farrowing and number of piglets observed when the time was recorded, subsequent piglet counts throughout the farrowing event until the last piglet was observed (Finish time), gestation length, total number born, number born alive, and number of stillborns per litter. Additionally, duration of farrowing and stillborn percentage was calculated after the collection period was over via simple formulation in excel. As this is an animal science data set, it is understood that some of these traits may require some additional description due to the fundamentals of the analysis that takes place in this project. Farrow date is reported on a 1,000 day calender basis (e.i. 699 = December 6th, 2022), this allows animal breeders to simplify dates/movements. Total number born is the number of animals birthed during farrowing, which includes live (number born alive) and dead (stillborn) piglets. 
+
+The objectives of our project was to determine any trends apparent among the various traits included in the analysis. These trends include the association between treatment and 1) Gestation length + Stillborns,  2) Onset of farrowing, and 3) Duration of farrowing. In additional to investigating the treatments, we compared sow age and gestation length, sow age and stillborn percentage, gestation length and total number born, gestation length and stillborn percentage, and all sow's distribution of farrowing times and duration of farrowing times. 
+
 
 # Methods: 
 All analysis and data visualization was conducted through the use of RStudio with data merging taking place via GitHub. The data set was read into RStudio via the readxl package. The first step to any data analysis project is cleaning up the data itself. This data was collected by hand and entered into an excel sheet, so unfortunately we can expect there to be some data entry errors associated with this data set. In particular, there were a few observations that had gestation lengths under 100 days or over 130 days, which is technically impossible to observe in this trial due to biological and managerial effects. Those observations were therefore removed with the filter function. Additionally, a dummy variable was utilized on whether or not sows were induced prior to parturition, with those induced sows being removed due to confounding effects via the filter function as well. The final step for data cleaning in this project was formatting the time columns (Onset and Completion time of farrowing). Since we are not necessarily concerned with what day these animals farrowed and more so what time of the day they did, it makes sense to look at these time variables on a continuous level; such as minute of the day. In order to complete this task, the lubridate package was used to format the actual time of the day into the minute of the day, with the YMD portion being removed all together. 
 
-Summary statistics were carried out for the traits of interest in this data set. A variety of packages were utilized for this step, such as dplyr, tidyr, readr, tidyverse, emmeans, ggplot2, etc. Summary statistics per treatment group, as well as the total population of sows were carried out using the summarise function. 
+Summary statistics were carried out for the traits of interest in this data set. A variety of packages were utilized for this step, such as dplyr, tidyr, readr, tidyverse, emmeans, ggplot2, etc. Summary statistics per treatment group, as well as the total population of sows were carried out using the summarise function. Associations among the various traits in this data set were analyzed via data visualization. More analysis could have taken place if the ability to use statistical modelling was possible; which would account for certain fixed effects associated with these traits. However, for the sake of this project, the ggplot2 package was utilized with scatter plots and histograms. In additional to these graphs, a shiny app was created to allow for users/farm managers/farm owners to "play" with the data themselves in order to look at certain associations and better their understanding of the results. 
 
-# Results: 
-
-# Discussion: 
-
-# Link to Shiny App: https://kdougherty.shinyapps.io/Stat_850_App/
 
 # Data Cleaning: 
+
 ```{r}
 library(tidyverse)
 library(lubridate)
@@ -49,8 +48,11 @@ Data <- Data[,-14]%>%
 
 write_csv(Data, "Stat_850_App/ST_project_cleaned.csv")
 ```
+The above code was the data cleaning portion, in which certain vectors were cleaned up (see the first portion of the methods section for more details).
 
-# Summary Statistics: 
+# Results and Discussion
+## Summary Statistics 
+
 ``` {r}
 library(dplyr) # wrangling
 library(tidyr) # wrangling
@@ -86,57 +88,74 @@ Data %>%
              min(GestationLength), max(GestationLength), mean(GestationLength), sd(GestationLength), std.error(GestationLength))
 
 ```
+#### Seth please add description of the results/summary of the summary statistics within this chunk..
+# Make sure there is a table (like what was in the presentation) and can also include that graph if wanted
 
-# Figures
+
+## The association between Gestation Length and Stillborns, while accounting for Treatment 
 ```{r}
 #Gestation length ~ Stillborns
 # Black dots are 7am, Blue are 2am 
 library(ggplot2)
 ggplot(data = Data, aes(x = GestationLength, y = SB_perc, color = Treatment)) + geom_point() 
 ```
+When looking at this graphs, there are a few major take-aways that we can see immediately. The first thing is the gestation length of our population; it averaging around 116/117 days (which is slightly higher than what the average is in the industry). The black dots represent the sows that were fed from 7-10AM, which we see are a little more associated with higher percentages of stillborns on average. It is also important to note here that we have one particular sows that had complete death loss on her litter, with 100% mortality at birth. We can also see that the highest accumulation of stillborns occurs with our mean gestation length on both treatment, which was expected prior to analysis. 
 
+
+## The association betweeen Gestation Length and Total Number Born 
 ```{r}
 #Gestation length ~ Total Number Born 
 #Treatment would not impact TNB
 library(ggplot2)
 ggplot(data = Data, aes(x = GestationLength, y = TNB)) + geom_point(color = 5) 
 ```
+This is a graph that represents the association between total number born and gestation length. Much like the previous graphs, we can see here that the average gestation length is a little above 116 days. In terms of total number born, we can see that on average sows that farrowed earlier in their gestation tended to have greater total number born, which is anticipated as larger litters are often associated with shorter gestation lengths. There are also a few outliers within this data set that were not filtered off due to expected data entry error, with these two examples being relatively low in terms of their total number born count. Lastly, we had one sow in this sample that had 36 total number (that is extremely impressive!!).
 
+
+## The association between Onset Time and Piglets Observed 
 ```{r}
 #Start_Minutes ~ Piglet observed 
 library(ggplot2)
 ggplot(data = Data, aes(x = Start_Minutes, y = Piglet, color = Treatment)) + geom_point() 
 ```
+This graph came about to basically see if there were any unusual trends associated with the technician. One of the primary objectives of this study was to accurately track when farrowings began, and we can access our accuracies by looking at the number of piglets present when the onset time was recorded. In this graph we can see that there are a handful of observations that had over 10 pigs present when onset time was recorded, which would not be a good indicator as to when onset time actually occurred. However, there does not appear to be any trends associated with these high piglet observations being around 1 or 2 technicians, as they are pretty evenly spread out. All together, we can conclude here that the technicians did a relatively good job at catching onset time prior to 4 pigs being birthed. 
 
+
+## The association between Sow Age and Total Number Born 
 ```{r}
 #SowID (AGE!) in relation to TNB 
 # Gilts had lower TNB
 library(ggplot2)
 ggplot(data = Data, aes(x = SowID, y = TNB)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age") 
 ```
+This graph represents the total number born in relation to sow age. As listed in the introduction of this report, the smaller the tag number, the older the sow and the larger the tag number, the younger the sow. In this case anything that was in the 15000's for tag number would be gilts (farrowing for the first time). The first thing to note with this data visualization is that gilts showed to have lower counts of total number born compared to the older sows, which was expected prior to analysis. On the flip side, the older sows on the left hand of the graph showed to be consistent in their counts, but lower than those "medium" ages sows. This is also expected due to biological effects. The last thing to note here is that there a gap present around 10000, which could be due to a health incident, or fallouts associated with a certain group of females. 
 
 
+## The association between Sow Age and Stillborn Percentage
+
 ```{r}
-#All Sows - histogram of start minutes 
+#SowID (AGE!) in relation to TNB 
+# Gilts had lower TNB
 library(ggplot2)
-ggplot(data = Data, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
-  geom_histogram(position = "dodge", fill = "blue", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
-         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of All Sows")
+ggplot(data = Data, aes(x = SowID, y = SB_perc)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age") 
 ```
+Much like the previous graph, this one illustrated sow age and its relationship with stillborn percentage. Gilts are often associated with higher occurrences of stillborns due to dystocia issues and that holds true in this sample as gilts had a higher frequency. ALl together, it is easy to see here that this particular farms has a real issue with their rates of stillborns and reasoning behind that can be attributed to several factors. 
+
+
+## The distribution of Onset Time across all sows 
+```{r}
+library(ggplot2)
+ggplot(data = Data, aes(x = SowID, y = Start_Minutes)) + geom_point(color = 7) + labs(title = "Onset time in relation to all sows") 
+```
+This graph illustrates the onset of farrowing distribution across all sows in the sample. This sows are again sorted by ear tag (age) as seen on the x-axis and thee onset time in minutes is on the y-axis. There is a pretty even distribution as far as onset time goes across all samples, with a little tendency seen on farrowing not generally occurring during the middle of the night (0 minutes = midnight). For more exploration of the impact of treatment of farrowing time, please see the shiny app portion below. 
+
+## The distribution of farrowing duration accross all sows 
 
 ```{r}
 library(ggplot2)
-Data1 <- Data%>%
-  filter(., Treatment == "1")
-ggplot(data = Data1, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
-  geom_histogram(position = "dodge", fill = "red", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
-         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of 7-10AM fed Sows")
+ggplot(data = Data, aes(x = SowID, y = Duration)) + geom_point(color = 8) + labs(title = "Farrowing duration in relation to all sows") 
 ```
-```{r}
-library(ggplot2)
-Data2 <- Data%>%
-  filter(., Treatment == "2")
-ggplot(data = Data2, aes(x = SowID, fill = Start_Minutes, colour = Start_Minutes)) + 
-  geom_histogram(position = "dodge", fill = "purple", color = 1, alpha = 0.5) + guides(fill = guide_legend(title = "All Sows"),
-         colour = guide_legend(title = "All Sows")) + labs(title = "Distribution of Onset time of 2-5AM fed Sows")
-```
+This final graph illustrates duration of farrowing across all sows in the sample. Once again, on the x-axis is the sow ID and on the y-axis is the duration of farrowing in minutes. Most farrowing events were below 750 minutes, which is anticipated. There are however, a few examples of farrowing times exceeding 1000 minutes, which is not anticipated. More investigated would be needed on these particular sows as perhaps some data entry errors or lack of accessing the proper farrowing completion time most likely took place. 
+
+
+# Link to Shiny App: https://kdougherty.shinyapps.io/Stat_850_App/
