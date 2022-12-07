@@ -93,7 +93,7 @@ Data %>%
                 ~round(.x, 2))) %>%
   arrange(Variable, Treatment) %>%
   kableExtra::kable() %>%
-  kableExtra::kable_styling("striped")
+  kableExtra::kable_styling("striped", font_size = 12)
 ```
 
 
