@@ -158,4 +158,17 @@ ggplot(data = Data, aes(x = SowID, y = Duration)) + geom_point(color = 8) + labs
 This final graph illustrates duration of farrowing across all sows in the sample. Once again, on the x-axis is the sow ID and on the y-axis is the duration of farrowing in minutes. Most farrowing events were below 750 minutes, which is anticipated. There are however, a few examples of farrowing times exceeding 1000 minutes, which is not anticipated. More investigated would be needed on these particular sows as perhaps some data entry errors or lack of accessing the proper farrowing completion time most likely took place. 
 
 
-# Link to Shiny App: https://kdougherty.shinyapps.io/Stat_850_App/
+# Link to Shiny App: 
+
+Understanding factors that contribute to the number and percentage of stillborn pigs is critical for managers of livestock operations. To make this data easier for stakeholders to access and evaluate, we developed a shiny application that can be accessed at: https://kdougherty.shinyapps.io/Stat_850_App/
+
+This application had three tabs: Project Overview, Summary Statistics, and Data Visualization. The project overview tab contains a brief description of the goals of the feeding trial along with descriptions of the two treatment groups. In the "Summary Statistics" tab, the user is prompted to select one of the following variables: gestation length, total number born, percent stillborn, and start time. After selecting a variable to summarize, the user will be presented with a table summarizing the minimum, maximum, mean, standard deviation, and standar error for the variable for each treatment group. While managers of livestock operations would be familiar with the statistics surrounding gestation length and total number of pigs born, they may be able to use the statistics from percent stillborn and start time to make more informed decisions about when to feed their sows pre-farrow. 
+
+The user has the most flexibility to explore the data in the "Data Visualization" tab. Here, the user can define the x-axis (choices include gestation length, start time, finish time, duration, or percent stillborn) and y-axis (choices include percent stillborn, total number born, and count (which will produce a histogram)). For figures that produce a scatterplot, the user can also determine whether a line of best fit is included. Lastly, the user can determine whether or not the point (or bars in the case a histogram is chosen) is colored by treatment group. 
+
+With the original goals of the project in mind, a histogram showing of start times colored by treatment is the most information. In this figure, we also included vertical lines at 9am and 5pm the help visualize birth start times relative to normal working hours. 
+
+Because the intent of this application is to allow users to explore and evaluate the data critically, we also included text input boxes where the user can offer conclusion, feedback, or ask questions. Any text in these boxes will then be stored in a csv file that members of the group can access and review. 
+
+
+
