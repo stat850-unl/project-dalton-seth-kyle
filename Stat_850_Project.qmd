@@ -1,6 +1,10 @@
 ---
 title: "Dalton, Seth, Kyle Report"
 format: html
+execute: 
+  echo: FALSE
+  message: FALSE
+  warning: FALSE
 ---
 
 # Introduction: 
@@ -75,18 +79,52 @@ library(ggplot2)
 #library(ggprism)
 library(patchwork)
 #library(plotrix)
+library(kableExtra)
+
+std.error <- function(x){
+  var(x)/(sqrt(length(x)))
+}
 
 plot1 <- ggplot(data=Data, aes(x =GestationLength, y = SB_perc )) + xlim(110,120) + ylim(0,.75) + geom_point() + facet_wrap('Treatment')
 plot1
 
 
 #Mean and SD of Total Newborns, stillborn percentage, and Gestation length by Treatment
-Data %>%
-  group_by(Treatment) %>%
-  summarise(min(TNB), max(TNB), mean(TNB), sd(TNB), std.error(TNB), 
-             min(SB_perc), max(SB_perc), mean(SB_perc), sd(SB_perc), std.error(SB_perc),
-             min(GestationLength), max(GestationLength), mean(GestationLength), sd(GestationLength), std.error(GestationLength))
+# Data %>%
+#   group_by(Treatment) %>%
+#   summarise(min(TNB), max(TNB), mean(TNB), sd(TNB), std.error(TNB), 
+#              min(SB_perc), max(SB_perc), mean(SB_perc), sd(SB_perc), std.error(SB_perc),
+#              min(GestationLength), max(GestationLength), mean(GestationLength), sd(GestationLength), std.error(GestationLength)) %>% 
+#   kable()
 
+Data %>%
+  rename(`Total Number Born` = TNB,
+         `Percent Stillborn` = SB_perc,
+         `Gestation Length` = GestationLength,
+         `Start Minutes` = Start_Minutes,
+         `Finish Minutes` = Finish_Minutes,
+         `Start Time` = Start_H,
+         `Finish Time` = Finish_H) %>%
+  mutate(Treatment = as.factor(Treatment),
+         `Start Time` = as.numeric(`Start Time`),
+         `Finish Time` = as.numeric(`Finish Time`)) %>%
+  group_by(Treatment) %>%
+  summarise(across(c(`Total Number Born`,
+                     `Start Time`,
+                     `Percent Stillborn`,
+                     `Gestation Length`),
+                   .fns = c(Min = min,
+                            Max = max,
+                            Mean = mean,
+                            Std.Dev = sd,
+                            Std.Err = std.error))) %>%
+  pivot_longer(cols = `Total Number Born_Min`:`Gestation Length_Std.Err`,
+               names_to = "Stat") %>%
+  separate(Stat, into = c("Variable", "Statistic"), sep = "_") %>%
+  pivot_wider(names_from = "Statistic",
+              values_from = "value") %>%
+  kable() %>% 
+  kable_classic()
 ```
 #### Seth please add description of the results/summary of the summary statistics within this chunk..
 # Make sure there is a table (like what was in the presentation) and can also include that graph if wanted
