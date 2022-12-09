@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Dalton, Seth, Kyle Report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Stat_850_Project_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Stat_850_Project_files/libs/quarto-html/quarto.js"></script>
+<script src="Stat_850_Project_files/libs/quarto-html/popper.min.js"></script>
+<script src="Stat_850_Project_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Stat_850_Project_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Stat_850_Project_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Stat_850_Project_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Stat_850_Project_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Stat_850_Project_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Stat_850_Project_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="Stat_850_Project_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="Stat_850_Project_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Dalton, Seth, Kyle Report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction:</h1>
+<p>This data set was extracted from a research trial conducted by Dalton in the summer of 2020. Prior to jumping into any of the details pertaining to this project, it is important to give acknowledgement to the two companies that provided the opportunity for this data set to exist in the first place. JYGA Technologies (Gestal) was Dalton’s employer at the time, who develops the electronic feeders utilized in the methodology of the trial and was the key part of getting the research technicians in the barn, and Standard Nutrition Company was the owner and operator of the farm in which the trial took place.</p>
+<p>This project investigated the impact of pre-farrow meal time on the onset of parturition. Upon entry to the farrowing rooms (day 112 of gestation), sows were assigned to one of two treatments; 1) Traditional (Fed from 7:00-10:00AM) and 2) Alternative (Fed from 2:00-5:00AM). Three research technicians (Dalton included) monitored the farrowing rooms every day for 10 weeks for 24 hours a day (8 hours per shift per person). Data collected that is used for this class’s project included farrow date, onset time of farrowing and number of piglets observed when the time was recorded, subsequent piglet counts throughout the farrowing event until the last piglet was observed (Finish time), gestation length, total number born, number born alive, and number of stillborns per litter. Additionally, duration of farrowing and stillborn percentage was calculated after the collection period was over via simple formulation in excel. As this is an animal science data set, it is understood that some of these traits may require some additional description due to the fundamentals of the analysis that takes place in this project. Farrow date is reported on a 1,000 day calender basis (e.i. 699 = December 6th, 2022), this allows animal breeders to simplify dates/movements. Total number born is the number of animals birthed during farrowing, which includes live (number born alive) and dead (stillborn) piglets.</p>
+<p>The objectives of our project was to determine any trends apparent among the various traits included in the analysis. These trends include the association between treatment and 1) Gestation length + Stillborns, 2) Onset of farrowing, and 3) Duration of farrowing. In additional to investigating the treatments, we compared sow age and gestation length, sow age and stillborn percentage, gestation length and total number born, gestation length and stillborn percentage, and all sow’s distribution of farrowing times and duration of farrowing times.</p>
+</section>
+<section id="methods" class="level1">
+<h1>Methods:</h1>
+<p>All analysis and data visualization was conducted through the use of RStudio with data merging taking place via GitHub. The data set was read into RStudio via the readxl package. The first step to any data analysis project is cleaning up the data itself. This data was collected by hand and entered into an excel sheet, so unfortunately we can expect there to be some data entry errors associated with this data set. In particular, there were a few observations that had gestation lengths under 100 days or over 130 days, which is technically impossible to observe in this trial due to biological and managerial effects. Those observations were therefore removed with the filter function. Additionally, a dummy variable was utilized on whether or not sows were induced prior to parturition, with those induced sows being removed due to confounding effects via the filter function as well. The final step for data cleaning in this project was formatting the time columns (Onset and Completion time of farrowing). Since we are not necessarily concerned with what day these animals farrowed and more so what time of the day they did, it makes sense to look at these time variables on a continuous level; such as minute of the day. In order to complete this task, the lubridate package was used to format the actual time of the day into the minute of the day, with the YMD portion being removed all together.</p>
+<p>Summary statistics were carried out for the traits of interest in this data set. A variety of packages were utilized for this step, such as dplyr, tidyr, readr, tidyverse, emmeans, ggplot2, etc. Summary statistics per treatment group, as well as the total population of sows were carried out using the summarise function. Associations among the various traits in this data set were analyzed via data visualization. More analysis could have taken place if the ability to use statistical modelling was possible; which would account for certain fixed effects associated with these traits. However, for the sake of this project, the ggplot2 package was utilized with scatter plots and histograms. In additional to these graphs, a shiny app was created to allow for users/farm managers/farm owners to “play” with the data themselves in order to look at certain associations and better their understanding of the results.</p>
+</section>
+<section id="data-cleaning" class="level1">
+<h1>Data Cleaning:</h1>
+<div class="cell">
+
+</div>
+<p>The above code was the data cleaning portion, in which certain vectors were cleaned up (see the first portion of the methods section for more details).</p>
+</section>
+<section id="results-and-discussion" class="level1">
+<h1>Results and Discussion</h1>
+<section id="summary-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Treatment </th>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:right;"> Min </th>
+   <th style="text-align:right;"> Max </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> Std.Dev </th>
+   <th style="text-align:right;"> Std.Err </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> Total Number Born </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 36.0 </td>
+   <td style="text-align:right;"> 16.2182836 </td>
+   <td style="text-align:right;"> 3.6993207 </td>
+   <td style="text-align:right;"> 0.5911008 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> Start Time </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 23.0 </td>
+   <td style="text-align:right;"> 12.6063433 </td>
+   <td style="text-align:right;"> 5.7111039 </td>
+   <td style="text-align:right;"> 1.4088272 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> Percent Stillborn </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.1020807 </td>
+   <td style="text-align:right;"> 0.1218230 </td>
+   <td style="text-align:right;"> 0.0006410 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> Gestation Length </td>
+   <td style="text-align:right;"> 109 </td>
+   <td style="text-align:right;"> 119.0 </td>
+   <td style="text-align:right;"> 115.9552239 </td>
+   <td style="text-align:right;"> 1.3247644 </td>
+   <td style="text-align:right;"> 0.0758045 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Total Number Born </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 25.0 </td>
+   <td style="text-align:right;"> 15.7113594 </td>
+   <td style="text-align:right;"> 3.6585263 </td>
+   <td style="text-align:right;"> 0.5775974 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Start Time </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 23.0 </td>
+   <td style="text-align:right;"> 11.6797020 </td>
+   <td style="text-align:right;"> 6.0007631 </td>
+   <td style="text-align:right;"> 1.5539099 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Percent Stillborn </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.0869012 </td>
+   <td style="text-align:right;"> 0.0941527 </td>
+   <td style="text-align:right;"> 0.0003825 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Gestation Length </td>
+   <td style="text-align:right;"> 112 </td>
+   <td style="text-align:right;"> 122.0 </td>
+   <td style="text-align:right;"> 116.1694600 </td>
+   <td style="text-align:right;"> 1.2983767 </td>
+   <td style="text-align:right;"> 0.0727469 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Our summary statistics consist of the min, max, mean, standard deviation, and standard error for the following variables of interest: Total Number Born(TNB), Start Time, Percent Stillborn, and Gestation Length for both treatments. When we look at this table the main statistic of interest is the percent stillborn for treatments one and two. Treatment 2 is 1% lower than treatment 1, which is significant when considering the dataset is over 1000 sows, half treatment 1 and half treatment 2, with a mean of 16 Total Newborns. That 1% difference results in 80 more piglets. (500sows x 16 TNB x .01)</p>
+</section>
+<section id="the-association-between-gestation-length-and-stillborns-while-accounting-for-treatment" class="level2">
+<h2 class="anchored" data-anchor-id="the-association-between-gestation-length-and-stillborns-while-accounting-for-treatment">The association between Gestation Length and Stillborns, while accounting for Treatment</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>When looking at this graphs, there are a few major take-aways that we can see immediately. The first thing is the gestation length of our population; it averaging around 116/117 days (which is slightly higher than what the average is in the industry). The black dots represent the sows that were fed from 7-10AM, which we see are a little more associated with higher percentages of stillborns on average. It is also important to note here that we have one particular sows that had complete death loss on her litter, with 100% mortality at birth. We can also see that the highest accumulation of stillborns occurs with our mean gestation length on both treatment, which was expected prior to analysis.</p>
+</section>
+<section id="the-association-betweeen-gestation-length-and-total-number-born" class="level2">
+<h2 class="anchored" data-anchor-id="the-association-betweeen-gestation-length-and-total-number-born">The association betweeen Gestation Length and Total Number Born</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This is a graph that represents the association between total number born and gestation length. Much like the previous graphs, we can see here that the average gestation length is a little above 116 days. In terms of total number born, we can see that on average sows that farrowed earlier in their gestation tended to have greater total number born, which is anticipated as larger litters are often associated with shorter gestation lengths. There are also a few outliers within this data set that were not filtered off due to expected data entry error, with these two examples being relatively low in terms of their total number born count. Lastly, we had one sow in this sample that had 36 total number (that is extremely impressive!!).</p>
+</section>
+<section id="the-association-between-onset-time-and-piglets-observed" class="level2">
+<h2 class="anchored" data-anchor-id="the-association-between-onset-time-and-piglets-observed">The association between Onset Time and Piglets Observed</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This graph came about to basically see if there were any unusual trends associated with the technician. One of the primary objectives of this study was to accurately track when farrowings began, and we can access our accuracies by looking at the number of piglets present when the onset time was recorded. In this graph we can see that there are a handful of observations that had over 10 pigs present when onset time was recorded, which would not be a good indicator as to when onset time actually occurred. However, there does not appear to be any trends associated with these high piglet observations being around 1 or 2 technicians, as they are pretty evenly spread out. All together, we can conclude here that the technicians did a relatively good job at catching onset time prior to 4 pigs being birthed.</p>
+</section>
+<section id="the-association-between-sow-age-and-total-number-born" class="level2">
+<h2 class="anchored" data-anchor-id="the-association-between-sow-age-and-total-number-born">The association between Sow Age and Total Number Born</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This graph represents the total number born in relation to sow age. As listed in the introduction of this report, the smaller the tag number, the older the sow and the larger the tag number, the younger the sow. In this case anything that was in the 15000’s for tag number would be gilts (farrowing for the first time). The first thing to note with this data visualization is that gilts showed to have lower counts of total number born compared to the older sows, which was expected prior to analysis. On the flip side, the older sows on the left hand of the graph showed to be consistent in their counts, but lower than those “medium” ages sows. This is also expected due to biological effects. The last thing to note here is that there a gap present around 10000, which could be due to a health incident, or fallouts associated with a certain group of females.</p>
+</section>
+<section id="the-association-between-sow-age-and-stillborn-percentage" class="level2">
+<h2 class="anchored" data-anchor-id="the-association-between-sow-age-and-stillborn-percentage">The association between Sow Age and Stillborn Percentage</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Much like the previous graph, this one illustrated sow age and its relationship with stillborn percentage. Gilts are often associated with higher occurrences of stillborns due to dystocia issues and that holds true in this sample as gilts had a higher frequency. ALl together, it is easy to see here that this particular farms has a real issue with their rates of stillborns and reasoning behind that can be attributed to several factors.</p>
+</section>
+<section id="the-distribution-of-onset-time-across-all-sows" class="level2">
+<h2 class="anchored" data-anchor-id="the-distribution-of-onset-time-across-all-sows">The distribution of Onset Time across all sows</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This graph illustrates the onset of farrowing distribution across all sows in the sample. This sows are again sorted by ear tag (age) as seen on the x-axis and thee onset time in minutes is on the y-axis. There is a pretty even distribution as far as onset time goes across all samples, with a little tendency seen on farrowing not generally occurring during the middle of the night (0 minutes = midnight). For more exploration of the impact of treatment of farrowing time, please see the shiny app portion below.</p>
+</section>
+<section id="the-distribution-of-farrowing-duration-accross-all-sows" class="level2">
+<h2 class="anchored" data-anchor-id="the-distribution-of-farrowing-duration-accross-all-sows">The distribution of farrowing duration accross all sows</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Stat_850_Project_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This final graph illustrates duration of farrowing across all sows in the sample. Once again, on the x-axis is the sow ID and on the y-axis is the duration of farrowing in minutes. Most farrowing events were below 750 minutes, which is anticipated. There are however, a few examples of farrowing times exceeding 1000 minutes, which is not anticipated. More investigated would be needed on these particular sows as perhaps some data entry errors or lack of accessing the proper farrowing completion time most likely took place.</p>
+</section>
+</section>
+<section id="link-to-shiny-app" class="level1">
+<h1>Link to Shiny App:</h1>
+<p>Understanding factors that contribute to the number and percentage of stillborn pigs is critical for managers of livestock operations. To make this data easier for stakeholders to access and evaluate, we developed a shiny application that can be accessed at: https://kdougherty.shinyapps.io/Stat_850_App/</p>
+<p>This application had three tabs: Project Overview, Summary Statistics, and Data Visualization. The project overview tab contains a brief description of the goals of the feeding trial along with descriptions of the two treatment groups. In the “Summary Statistics” tab, the user is prompted to select one of the following variables: gestation length, total number born, percent stillborn, and start time. After selecting a variable to summarize, the user will be presented with a table summarizing the minimum, maximum, mean, standard deviation, and standar error for the variable for each treatment group. While managers of livestock operations would be familiar with the statistics surrounding gestation length and total number of pigs born, they may be able to use the statistics from percent stillborn and start time to make more informed decisions about when to feed their sows pre-farrow.</p>
+<p>The user has the most flexibility to explore the data in the “Data Visualization” tab. Here, the user can define the x-axis (choices include gestation length, start time, finish time, duration, or percent stillborn) and y-axis (choices include percent stillborn, total number born, and count (which will produce a histogram)). For figures that produce a scatterplot, the user can also determine whether a line of best fit is included. Lastly, the user can determine whether or not the point (or bars in the case a histogram is chosen) is colored by treatment group.</p>
+<p>With the original goals of the project in mind, a histogram showing of start times colored by treatment is the most information. In this figure, we also included vertical lines at 9am and 5pm the help visualize birth start times relative to normal working hours.</p>
+<p>Because the intent of this application is to allow users to explore and evaluate the data critically, we also included text input boxes where the user can offer conclusion, feedback, or ask questions. Any text in these boxes will then be stored in a csv file that members of the group can access and review.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

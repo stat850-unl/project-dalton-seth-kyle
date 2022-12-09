@@ -126,9 +126,8 @@ Data %>%
   kable() %>% 
   kable_classic()
 ```
-#### Seth please add description of the results/summary of the summary statistics within this chunk..
+
 Our summary statistics consist of the min, max, mean, standard deviation, and standard error for the following variables of interest: Total Number Born(TNB), Start Time, Percent Stillborn, and Gestation Length for both treatments. When we look at this table the main statistic of interest is the percent stillborn for treatments one and two. Treatment 2 is 1% lower than treatment 1, which is significant when considering the dataset is over 1000 sows, half treatment 1 and half treatment 2, with a mean of 16 Total Newborns. That 1% difference results in 80 more piglets. (500sows x 16 TNB x .01)
-# Make sure there is a table (like what was in the presentation) and can also include that graph if wanted
 
 
 ## The association between Gestation Length and Stillborns, while accounting for Treatment 
