@@ -1,6 +1,6 @@
 ---
 title: "Dalton, Seth, Kyle Report"
-format: html
+format: pdf
 execute: 
   echo: FALSE
   message: FALSE
@@ -145,7 +145,7 @@ When looking at this graphs, there are a few major take-aways that we can see im
 #Gestation length ~ Total Number Born 
 #Treatment would not impact TNB
 library(ggplot2)
-ggplot(data = Data, aes(x = GestationLength, y = TNB)) + geom_point(color = 5) 
+ggplot(data = Data, aes(x = GestationLength, y = TNB)) + geom_tile(aes(fill = after_stat(count)), stat = "bin2d", binwidth = c(1, 1)) 
 ```
 This is a graph that represents the association between total number born and gestation length. Much like the previous graphs, we can see here that the average gestation length is a little above 116 days. In terms of total number born, we can see that on average sows that farrowed earlier in their gestation tended to have greater total number born, which is anticipated as larger litters are often associated with shorter gestation lengths. There are also a few outliers within this data set that were not filtered off due to expected data entry error, with these two examples being relatively low in terms of their total number born count. Lastly, we had one sow in this sample that had 36 total number (that is extremely impressive!!).
 
@@ -175,7 +175,7 @@ This graph represents the total number born in relation to sow age. As listed in
 #SowID (AGE!) in relation to TNB 
 # Gilts had lower TNB
 library(ggplot2)
-ggplot(data = Data, aes(x = SowID, y = SB_perc)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age") 
+ggplot(data = Data, aes(x = SowID, y = SB_perc)) + geom_point(color = 2) + labs(title = "Total number born in relation to Sow Age")  + geom_smooth()
 ```
 Much like the previous graph, this one illustrated sow age and its relationship with stillborn percentage. Gilts are often associated with higher occurrences of stillborns due to dystocia issues and that holds true in this sample as gilts had a higher frequency. ALl together, it is easy to see here that this particular farms has a real issue with their rates of stillborns and reasoning behind that can be attributed to several factors. 
 
